@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SignatureContext } from "../../../contexts/SignatureContext";
 import { DocumentCanvas } from "../DocumentCanvas/DocumentCanvas";
@@ -41,6 +42,7 @@ export const UploadFlow = () => {
     }
 
     const handleChange = () => {
+        setPage(1);
         const file = inputFile.current.files[0];
         setLoadedFile(file);
     }
@@ -67,39 +69,46 @@ export const UploadFlow = () => {
     }, [loadedFile]);
 
     const drawDocument = async () => {
-        // Convert base 64 data to bianry
-        const pdfAsArray = convertDataURIToBinary(base64Data);
+        try {
+            // Convert base 64 data to bianry
+            const pdfAsArray = convertDataURIToBinary(base64Data);
 
-        if (pdfInstance) {
-            pdfInstance.destroy();
+            if (pdfInstance) {
+                pdfInstance.destroy();
+            }
+
+            const pdf = await pdfjsLib.getDocument(pdfAsArray).promise;
+
+            setPDFInstance(pdf);
+
+            // Load information from the desired page.
+            setTotalPages(pdf.numPages);
+            console.log(pdf);
+            const pdfPage = await pdf.getPage(page);
+            const scale = 0.5;
+
+            const viewport = pdfPage.getViewport({
+                scale,
+                rotation: 0,
+                dontFlip: false
+            });
+
+            // Get canvas context
+            let context = canvasRef.current.getContext("2d");
+
+            canvasRef.current.height = viewport?.height;
+            canvasRef.current.width = viewport?.width;
+
+            // Render PDF page into canvas context
+            await pdfPage.render({ canvasContext: context, viewport });
+
+            context.beginPath();
+        } catch (e) {
+            console.log(e);
+            if (e.message === "Invalid PDF structure.") {
+                setError("Estructura de PDF inválida. Por favor, intente con otro archivo.")
+            }
         }
-
-        const pdf = await pdfjsLib.getDocument(pdfAsArray).promise;
-
-        setPDFInstance(pdf);
-
-        // Load information from the desired page.
-        setTotalPages(pdf.numPages);
-        console.log(pdf);
-        const pdfPage = await pdf.getPage(page);
-        const scale = 0.5;
-
-        const viewport = pdfPage.getViewport({
-            scale,
-            rotation: 0,
-            dontFlip: false
-        });
-
-        // Get canvas context
-        let context = canvasRef.current.getContext("2d");
-
-        canvasRef.current.height = viewport?.height;
-        canvasRef.current.width = viewport?.width;
-
-        // Render PDF page into canvas context
-        await pdfPage.render({ canvasContext: context, viewport });
-
-        context.beginPath();
     }
 
     useEffect(() => {

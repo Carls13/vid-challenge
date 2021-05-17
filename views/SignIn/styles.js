@@ -7,7 +7,7 @@ export const Container = styled.div`
     padding: 75px 100px;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 80px - 60px);
+    min-height: calc(100vh - 80px - 60px);
 
     @media screen and (max-width: 800px) {
         padding: 15px 25px;

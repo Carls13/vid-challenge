@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Layout } from "../../components/Layout/Layout";
+import { InfoModal } from "../../components/InfoModal/InfoModal";
 import { SignatureContext } from "../../contexts/SignatureContext";
 import { UserContext } from "../../contexts/UserContext";
 import { useSignatureInfo } from "../../hooks/useSignatureInfo";
@@ -11,6 +12,9 @@ import { Container, Title, Row, FormContainer, UploadContainer, Button } from ".
 import { UploadFlow } from "./UploadFlow/UploadFlow";
 
 export const UploadView = () => {
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [isLoading, setLoading] = useState(false);
     const { isLoggedIn } = useContext(UserContext);
 
     const router = useRouter();
@@ -30,7 +34,6 @@ export const UploadView = () => {
     });
 
     const isButtonDisabled = () => {
-
         return !coordinates || !page || !loadedFile || !base64Data;
     }
 
@@ -86,15 +89,23 @@ export const UploadView = () => {
             }
         })
             .then(() => {
-                console.log("Done!")
+                setLoading(false);
+                setSuccess(true);
             })
             .catch((e) => {
                 console.error(e);
+                setLoading(false);
+                setError("Error enviando el documento. Por favor, intente en un momento");
             })
     }
 
     return (
         <Layout>
+            {error && <InfoModal isError text={error} onClick={() => setError(null)} />}
+            {success && <InfoModal text={"Su documento ha sido firmado con éxito. Será redirigido al Dashboard"} onClick={() => {
+                setSuccess(false);
+                router.push("/dashboard");
+            }} />}
             <SignatureContext.Provider value={signatureInfo}>
                 <Container>
                     <Title>Subir Documento</Title>
@@ -106,7 +117,7 @@ export const UploadView = () => {
                             <UploadFlow />
                         </UploadContainer>
                     </Row>
-                    <Button onClick={handleSubmit(onSubmit)} disabled={isButtonDisabled()}>Enviar</Button>
+                    <Button disabled={isLoading} onClick={handleSubmit(onSubmit)} disabled={isButtonDisabled()}>Enviar</Button>
                 </Container>
             </SignatureContext.Provider>
         </Layout>

@@ -13,7 +13,7 @@ export const SignatureForm = ({ register, errors }) => {
     return (
         <Form>
             <InputContainer>
-                <Label for="subscription">Tipo de canal de firma</Label>
+                <Label htmlFor="subscription">Tipo de canal de firma</Label>
                 <Input id="subscription"
                     type="text"
                     value="Remote"
@@ -21,7 +21,7 @@ export const SignatureForm = ({ register, errors }) => {
                 />
             </InputContainer>
             <InputContainer>
-                <Label for="issuerName">Nombre del emisor</Label>
+                <Label htmlFor="issuerName">Nombre del emisor</Label>
                 <Input id="issuerName"
                     type="text"
                     error={errors.issuerName}
@@ -37,7 +37,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.issuerName && <ErrorSpan>{errors.issuerName.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="signerName">Nombre del firmante</Label>
+                <Label htmlFor="signerName">Nombre del firmante</Label>
                 <Input id="signerName"
                     type="text"
                     error={errors.signerName}
@@ -53,7 +53,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.signerName && <ErrorSpan>{errors.signerName.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="idType">Tipo de ID</Label>
+                <Label htmlFor="idType">Tipo de ID</Label>
                 <Input id="idType"
                     type="text"
                     error={errors.idType}
@@ -69,7 +69,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.idType && <ErrorSpan>{errors.idType.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="signerID">ID del firmante</Label>
+                <Label htmlFor="signerID">ID del firmante</Label>
                 <Input id="signerID"
                     type="text"
                     error={errors.signerID}
@@ -85,7 +85,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.signerID && <ErrorSpan>{errors.signerID.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="signerEmail">Email del firmante</Label>
+                <Label htmlFor="signerEmail">Email del firmante</Label>
                 <Input id="signerEmail"
                     type="email"
                     error={errors.signerEmail}
@@ -101,7 +101,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.signerEmail && <ErrorSpan>{errors.signerEmail.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="language">Idioma</Label>
+                <Label htmlFor="language">Idioma</Label>
                 <Select id="language"
                     error={errors.language}
                     placeholder="Idioma"
@@ -118,7 +118,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.language && <ErrorSpan>{errors.language.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="subject">Asunto</Label>
+                <Label htmlFor="subject">Asunto</Label>
                 <TextArea id="subject"
                     height="120px"
                     error={errors.subject}
@@ -134,7 +134,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.subject && <ErrorSpan>{errors.subject.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="message">Mensaje</Label>
+                <Label htmlFor="message">Mensaje</Label>
                 <TextArea id="message"
                     height="240px"
                     error={errors.message}
@@ -150,7 +150,7 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.message && <ErrorSpan>{errors.message.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label for="phoneNumber">Número de teléfono (opcional)</Label>
+                <Label htmlFor="phoneNumber">Número de teléfono (opcional)</Label>
                 <Input id="phoneNumber"
                     type="text"
                     error={errors.phoneNumber}

@@ -73,7 +73,7 @@ export const Hero = styled.img`
     width: 100%;
 
     &:hover {
-        transform: rotateZ(-10deg);
+        transform: scale(1.1);
         transition: linear 0.3s;
     }
 
