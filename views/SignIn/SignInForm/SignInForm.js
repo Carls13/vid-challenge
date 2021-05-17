@@ -18,7 +18,7 @@ export const SignInForm = () => {
     const [error, setError] = useState();
     const router = useRouter();
 
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setAuth } = useContext(UserContext);
 
     const [isLoading, setLoading] = useState(false);
 
@@ -32,19 +32,20 @@ export const SignInForm = () => {
 
     const onSubmit = ({ suscription, password }) => {
         setLoading(true);
-
+        const basicAuth = {
+            username: suscription,
+            password
+        };
         axios.get("https://pre-vidsignercloud.validatedid.com/api/devices", {
-            headers: {
-                Authorization: `Basic ${suscription}:${password}`
-            }
+            auth: basicAuth
         }).then(() => {
-            setIsLoggedIn(true);
+            setAuth(basicAuth);
             setLoading(false);
+            router.push("/dashboard");
         }).catch((e) => {
-            const status = e?.response;
-
+            const { status } = e?.response;
             if (status !== 403) {
-                setIsLoggedIn(true);
+                setAuth(basicAuth);
                 router.push("/dashboard");
             } else {
                 setError("Error iniciando sesión. Por favor, revise sus datos");

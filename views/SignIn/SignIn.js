@@ -8,10 +8,10 @@ import { Container, Title } from "./styles";
 export const SignInView = () => {
     const router = useRouter();
 
-    const { isLoggedIn } = useContext(UserContext);
+    const { auth } = useContext(UserContext);
 
     useEffect(() => {
-        if (isLoggedIn) router.push("/dashboard");
+        if (auth) router.push("/dashboard");
     }, []);
 
     return (

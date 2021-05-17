@@ -15,12 +15,12 @@ export const UploadView = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const { isLoggedIn } = useContext(UserContext);
+    const { auth } = useContext(UserContext);
 
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoggedIn) router.push("/");
+        if (!auth) router.push("/");
     }, []);
 
     const signatureInfo = useSignatureInfo();
@@ -28,7 +28,6 @@ export const UploadView = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
-        defaultValues: {},
         criteriaMode: "firstError",
         shouldFocusError: true,
     });
@@ -54,17 +53,18 @@ export const UploadView = () => {
         const { x, y, width, height } = coordinates;
 
         const requestData = {
-            DocContent: base64Data,
+            DocContent: base64Data.split("data:application/pdf;base64,")[1],
             FileName: loadedFile.name,
             IssuerName: issuerName,
             Signers: [
                 {
                     SignerName: signerName,
+                    sendSignedDoc: true,
                     TypeOfID: idType,
                     NumberID: signerID,
                     eMail: signerEmail,
                     SignatureType: "emailandsms",
-                    PhoneNumber: phoneNumber,
+                    PhoneNumber: "+" + phoneNumber,
                     Language: language,
                     Visible: {
                         Page: page,
@@ -84,9 +84,7 @@ export const UploadView = () => {
         };
 
         axios.post("https://pre-vidsignercloud.validatedid.com/api/documents", requestData, {
-            headers: {
-                Authorization: `Basic SandboxYG:1234`
-            }
+            auth
         })
             .then(() => {
                 setLoading(false);
@@ -117,7 +115,7 @@ export const UploadView = () => {
                             <UploadFlow />
                         </UploadContainer>
                     </Row>
-                    <Button disabled={isLoading} onClick={handleSubmit(onSubmit)} disabled={isButtonDisabled()}>Enviar</Button>
+                    <Button disabled={isLoading || isButtonDisabled()} onClick={handleSubmit(onSubmit)}>Enviar</Button>
                 </Container>
             </SignatureContext.Provider>
         </Layout>

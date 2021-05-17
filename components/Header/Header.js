@@ -11,7 +11,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { useContext } from 'react';
 
 export const Header = () => {
-    const { isLoggedIn } = useContext(UserContext);
+    const { auth } = useContext(UserContext);
 
     return (
         <HeaderContainer>
@@ -23,7 +23,7 @@ export const Header = () => {
             <OptionsContainer>
                 <Option>
                     {
-                        isLoggedIn ?
+                        auth ?
                             <Link prefetch href="/dashboard">Dashboard</Link>
                             :
                             <Link prefetch href="/sign-in">Entrar</Link>

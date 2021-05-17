@@ -11,12 +11,12 @@ import { useRouter } from 'next/router';
 import { UserContext } from "../../contexts/UserContext";
 
 export const DashboardView = () => {
-    const { isLoggedIn } = useContext(UserContext);
+    const { auth } = useContext(UserContext);
 
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoggedIn) router.push("/");
+        if (!auth) router.push("/");
     }, []);
 
     return (

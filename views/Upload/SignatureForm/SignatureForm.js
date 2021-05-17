@@ -150,12 +150,17 @@ export const SignatureForm = ({ register, errors }) => {
                 {errors.message && <ErrorSpan>{errors.message.message}</ErrorSpan>}
             </InputContainer>
             <InputContainer>
-                <Label htmlFor="phoneNumber">Número de teléfono (opcional)</Label>
+                <Label htmlFor="phoneNumber">Número de teléfono (opcional) (incluya código de área)</Label>
                 <Input id="phoneNumber"
-                    type="text"
+                    type="number"
                     error={errors.phoneNumber}
                     placeholder="Número de teléfono"
-                    {...register("phoneNumber")}
+                    {...register("phoneNumber", {
+                        pattern: {
+                            value: /\+?1?\s*\(?-*\.*(\d{3})\)?\.*-*\s*(\d{3})\.*-*\s*(\d{4})$/,
+                            message: 'Debes ingresar un número de teléfono válido'
+                        }
+                    })}
                 />
                 {errors.phoneNumber && <ErrorSpan>{errors.phoneNumber.message}</ErrorSpan>}
             </InputContainer>

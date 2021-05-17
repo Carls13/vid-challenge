@@ -6,6 +6,18 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
 `;
 
 export const InputContainer = styled.div`
