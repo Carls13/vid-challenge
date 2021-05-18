@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PRIMARY_COLOR } from "../../theme/theme";
 
-export const Container = styled.div`
+export const Container = styled.section`
     display: flex;
     flex-direction: column;
     padding: 75px 100px;
